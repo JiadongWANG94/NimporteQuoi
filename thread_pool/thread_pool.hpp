@@ -31,6 +31,7 @@ class ThreadPool {
 template <typename ReturnT>
 ThreadPool<ReturnT>::ThreadPool(unsigned int capacity) : capacity_(capacity) {
     for (unsigned int i = 0; i < capacity_; ++i) {
+        std::cout << "pushing back threads" << std::endl;
         threads_.push_back(
             std::thread(
                 [this]() {
@@ -41,7 +42,11 @@ ThreadPool<ReturnT>::ThreadPool(unsigned int capacity) : capacity_(capacity) {
                                 return ((tasks_.size() > 0) && is_running_);
                             }
                         );
-                        std::function<ReturnT()> &front_task = tasks_.front();
+                        // alternatively :
+                        // while ((tasks_.size() == 0) || !is_running_) {
+                        //     cv_.wait(lock);
+                        // }
+                        std::packaged_task<ReturnT()> front_task = std::move(tasks_.front());
                         tasks_.pop();
                         lock.unlock();
                         front_task();
@@ -63,6 +68,7 @@ ThreadPool<ReturnT>::~ThreadPool() {
 template <typename ReturnT>
 bool ThreadPool<ReturnT>::Start() {
     is_running_.store(true);
+    cv_.notify_all();
     return true;
 }
 
@@ -74,12 +80,10 @@ bool ThreadPool<ReturnT>::Stop() {
 
 template <typename ReturnT>
 std::future<ReturnT> ThreadPool<ReturnT>::AddTask(std::function<ReturnT()> task) {
-    std::future<ReturnT> future;
-    {
-        std::lock_guard<std::mutex> lock(tasks_mtx_);
-        tasks_.push(std::packaged_task<ReturnT()>(task));
-        future = tasks_.end().get_future();
-    }
+    std::lock_guard<std::mutex> lock(tasks_mtx_);
+    std::packaged_task<ReturnT()> pt(task);
+    std::future<ReturnT> res = pt.get_future();
+    tasks_.push(std::move(pt));
     cv_.notify_all();
-    return std::move(future);
+    return res;
 }
