@@ -19,7 +19,7 @@ class ThreadPool {
     std::future<ReturnT> AddTask(std::function<ReturnT()>);
 
  private:
-    std::atomic<bool> is_running_ = false;
+    std::atomic<bool> is_running_{false};
     std::vector<std::thread> threads_;
     std::queue<std::packaged_task<ReturnT()> > tasks_;
     std::condition_variable cv_;
@@ -33,10 +33,14 @@ ThreadPool<ReturnT>::ThreadPool(unsigned int capacity) : capacity_(capacity) {
     for (unsigned int i = 0; i < capacity_; ++i) {
         threads_.push_back(
             std::thread(
-                []() {
+                [this]() {
                     while (1) {
                         std::unique_lock<std::mutex> lock(tasks_mtx_);
-                        cv_.wait(lock, [](){ return (tasks_.size() > 0) && is_running_; })
+                        cv_.wait(lock,
+                            [this](){
+                                return ((tasks_.size() > 0) && is_running_);
+                            }
+                        );
                         std::function<ReturnT()> &front_task = tasks_.front();
                         tasks_.pop();
                         lock.unlock();
