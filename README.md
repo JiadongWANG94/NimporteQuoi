@@ -4,6 +4,16 @@
 This is a personnal repository aiming to collecting some software utils, including some common used algorithms and micro-architectures.
 
 ## Modules
+### Common
+Common module include some basic utils for test.  
+Many of these files could be replaced by some well-known 3rdparty projects.  
+`log.hpp` Provide a simple log interface.  
+`test.hpp` Provide a simple test framework, including a handle for exceptions, and a test register.  
+`time.hpp` Provide a simple util to calculate time consumption.
+
+### Data Structure
+Provide some basic data structure and implementation of some related algorithms.
+
 ### Memory Pool
 **WIP**
 
