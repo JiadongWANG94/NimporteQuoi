@@ -12,7 +12,10 @@ foreach(module_dir ${modules})
         if(src_list)
             message(STATUS "build module ${module}")
             add_library(${module} SHARED ${src_list})
-            target_include_directories(${module} PUBLIC ${module})
+            target_include_directories(${module}
+                PUBLIC
+                    ${module}
+                    ${CMAKE_CURRENT_SOURCE_DIR}/common)
             unset(src_list)
         endif()
         if(IS_DIRECTORY ${module_dir}/test/)
@@ -21,7 +24,12 @@ foreach(module_dir ${modules})
                 get_filename_component(exec ${src_file} NAME_WE)
                 message(STATUS "build exec ${exec}")
                 add_executable(${exec} ${src_file})
-                target_link_libraries(${exec} PUBLIC ${module})
+                target_link_libraries(${exec}
+                    PUBLIC
+                        ${module})
+                target_include_directories(${exec}
+                    PUBLIC
+                        ${CMAKE_CURRENT_SOURCE_DIR}/common)
             endforeach()
         endif()
     endif()

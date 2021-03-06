@@ -1,3 +1,6 @@
+/**
+ * Wang Jiadong <jiadong.wang.94@outlook.com>
+ */
 
 #include "mmap_file_writer.hpp"
 

@@ -1,3 +1,7 @@
+/**
+ * Wang Jiadong <jiadong.wang.94@outlook.com>
+ */
+
 #pragma once
 
 #include <cstdlib>

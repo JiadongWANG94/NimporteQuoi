@@ -1,3 +1,7 @@
+/**
+ * Wang Jiadong <jiadong.wang.94@outlook.com>
+ */
+
 #pragma once
 
 #include <vector>
@@ -7,6 +11,7 @@
 #include <atomic>
 #include <queue>
 #include <functional>
+#include <iostream>
 
 template <typename ReturnT>
 class ThreadPool {
@@ -31,7 +36,6 @@ class ThreadPool {
 template <typename ReturnT>
 ThreadPool<ReturnT>::ThreadPool(unsigned int capacity) : capacity_(capacity) {
     for (unsigned int i = 0; i < capacity_; ++i) {
-        std::cout << "pushing back threads" << std::endl;
         threads_.push_back(
             std::thread(
                 [this]() {
