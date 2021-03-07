@@ -9,7 +9,7 @@
  * ElementT should be copy constructable and has operator==
  */
 template <typename ElementT>
-class DirectedAcyclicGraph : public DirectedGraph<ElementT>{
+class DirectedAcyclicGraph : public DirectedGraph<ElementT> {
  public:
     bool Init(const std::string &config) { return true; }
 
@@ -49,22 +49,17 @@ class DirectedAcyclicGraph : public DirectedGraph<ElementT>{
         return true;
     }
 
-    bool IsValid() {
-        
-    }
+    bool IsValid() {}
 
-    const std::vector<std::shared_ptr<GraphNode<ElementT> > > &GetVertexes() const {
+    const std::vector<std::shared_ptr<GraphNode<ElementT> > > &GetVertexes()
+        const {
         return vertexes_;
     }
 
  private:
-    bool CheckCircle() {
+    bool CheckCircle() {}
 
-    }
-
-    bool CheckConnectivity() {
-
-    }
+    bool CheckConnectivity() {}
 
  private:
     std::vector<std::shared_ptr<GraphNode<ElementT> > > vertexes_;

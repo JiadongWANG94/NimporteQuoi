@@ -20,18 +20,19 @@ REGISTER_TEST(test_thread_pool) {
     ThreadPool<void> pool2(6);
 
     LOG(test) << "Initing pool" << std::endl;
-    std::function<int()> func1([]()->int {
+    std::function<int()> func1([]() -> int {
         std::this_thread::sleep_for(1000ms);
-        std::cout << "in func1 : tid " << std::this_thread::get_id() << std::endl;
+        std::cout << "in func1 : tid " << std::this_thread::get_id()
+                  << std::endl;
         return 0;
     });
 
     std::function<void()> func2([]() {
         std::this_thread::sleep_for(1000ms);
-        std::cout << "in func2 : tid " << std::this_thread::get_id() << std::endl;
+        std::cout << "in func2 : tid " << std::this_thread::get_id()
+                  << std::endl;
         return;
     });
-
 
     LOG(test) << "Adding task" << std::endl;
     std::vector<std::future<int> > fut_table;
@@ -47,7 +48,8 @@ REGISTER_TEST(test_thread_pool) {
     LOG(test) << "Get the futures" << std::endl;
     int i = 0;
     for (auto &fut : fut_table) {
-        std::cout << "geting future : " << fut.get() << " with i = " << i++ << std::endl;
+        std::cout << "geting future : " << fut.get() << " with i = " << i++
+                  << std::endl;
     }
     return true;
 }

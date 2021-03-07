@@ -12,16 +12,12 @@
 
 class TimerGuard {
  public:
-    TimerGuard() {
+    TimerGuard() {}
 
-    }
+    ~TimerGuard() {}
 
-    ~TimerGuard() {
-
-    }
  private:
     std::chrono::time_point<std::chrono::steady_clock> start;
-
 };
 
 #define TIMER_START(tag)

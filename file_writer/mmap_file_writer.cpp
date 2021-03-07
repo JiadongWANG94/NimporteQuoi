@@ -60,8 +60,8 @@ MmapFileWriter& MmapFileWriter::operator<<(const char* msg) {
 }
 
 bool MmapFileWriter::allocate_new_epoch() {
-
-    if (0 != munmap(static_cast<void*>(start_), epoch_size_pg_ * getpagesize())) {
+    if (0 !=
+        munmap(static_cast<void*>(start_), epoch_size_pg_ * getpagesize())) {
         perror("failed to munmap");
         return false;
     }

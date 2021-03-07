@@ -19,9 +19,8 @@ static void RunTests();
 class TestWrapper {
  public:
     virtual ~TestWrapper() = default;
-    bool Run() {
-        return RunImpl();
-    }
+    bool Run() { return RunImpl(); }
+
  protected:
     virtual bool RunImpl() = 0;
 };
@@ -50,15 +49,12 @@ void RunTests() {
             ++n_failure;
         }
     }
-    LOG(test)
-        << "\033[1;32m" << n_failure
-        << "\033[0m test(s) failed out of all \033[1;32m"
-        << n_tests << "\033[0m test(s)." << std::endl;
+    LOG(test) << "\033[1;32m" << n_failure
+              << "\033[0m test(s) failed out of all \033[1;32m" << n_tests
+              << "\033[0m test(s)." << std::endl;
     if (0 == n_failure) {
-        LOG(test)
-            << "\033[1;32mAll tests passed.\033[0m" << std::endl;
+        LOG(test) << "\033[1;32mAll tests passed.\033[0m" << std::endl;
     } else {
-        LOG(test)
-            << "\033[1;31mTest failed.\033[0m" << std::endl;
+        LOG(test) << "\033[1;31mTest failed.\033[0m" << std::endl;
     }
 }

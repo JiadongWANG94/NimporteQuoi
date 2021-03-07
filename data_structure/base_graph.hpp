@@ -10,7 +10,8 @@ template <typename ElementT>
 class GraphNode {
  public:
     GraphNode<ElementT>() = default;
-    GraphNode<ElementT>(const ElementT& data) : data(data) {};
+    GraphNode<ElementT>(const ElementT &data) : data(data){};
+
  public:
     ElementT data;
     std::vector<std::shared_ptr<GraphNode<ElementT> > > list;
@@ -26,8 +27,9 @@ class BaseGraph {
     virtual bool AddVertex(const ElementT &vertex) = 0;
     virtual bool AddEdge(const ElementT &from, const ElementT &to) = 0;
     virtual bool HasVertex(const ElementT &vertex) const = 0;
-    virtual const std::vector<std::shared_ptr<GraphNode<ElementT> > > &GetVertexes() const = 0;
+    virtual const std::vector<std::shared_ptr<GraphNode<ElementT> > >
+        &GetVertexes() const = 0;
+
  protected:
     std::vector<std::shared_ptr<GraphNode<ElementT> > > vertexes_;
-
 };

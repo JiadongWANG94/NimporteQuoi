@@ -55,7 +55,8 @@ class DirectedGraph : public BaseGraph<ElementT> {
         return false;
     }
 
-    const std::vector<std::shared_ptr<GraphNode<ElementT> > > &GetVertexes() const override {
+    const std::vector<std::shared_ptr<GraphNode<ElementT> > > &GetVertexes()
+        const override {
         return vertexes_;
     }
 

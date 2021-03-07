@@ -18,7 +18,7 @@ class RingBuffer {
 
     unsigned int Capacity() const { return capacity_; }
     unsigned int Size() const;
-    bool IsEmpty() const {return is_empty_; }
+    bool IsEmpty() const { return is_empty_; }
     bool IsInitiated() const { return is_initiated_; }
 
  private:
@@ -30,7 +30,7 @@ class RingBuffer {
     unsigned int capacity_ = 0;
     unsigned int head_idx_ = 0;
     unsigned int tail_idx_ = 0;
-    char* data_ = nullptr;
+    char *data_ = nullptr;
 };
 
 template <typename DataT>
@@ -66,7 +66,7 @@ DataT RingBuffer<DataT>::Get() {
         ;
     } else {
         memcpy(&ret, data_ + sizeof(DataT) * tail_idx_, sizeof(DataT));
-        tail_idx_ = (tail_idx_ + 1 ) % capacity_;
+        tail_idx_ = (tail_idx_ + 1) % capacity_;
         if (tail_idx_ == head_idx_) {
             is_empty_ = true;
         }

@@ -36,28 +36,23 @@ class ThreadPool {
 template <typename ReturnT>
 ThreadPool<ReturnT>::ThreadPool(unsigned int capacity) : capacity_(capacity) {
     for (unsigned int i = 0; i < capacity_; ++i) {
-        threads_.push_back(
-            std::thread(
-                [this]() {
-                    while (1) {
-                        std::unique_lock<std::mutex> lock(tasks_mtx_);
-                        cv_.wait(lock,
-                            [this](){
-                                return ((tasks_.size() > 0) && is_running_);
-                            }
-                        );
-                        // alternatively :
-                        // while ((tasks_.size() == 0) || !is_running_) {
-                        //     cv_.wait(lock);
-                        // }
-                        std::packaged_task<ReturnT()> front_task = std::move(tasks_.front());
-                        tasks_.pop();
-                        lock.unlock();
-                        front_task();
-                    }
-                }
-            )
-        );
+        threads_.push_back(std::thread([this]() {
+            while (1) {
+                std::unique_lock<std::mutex> lock(tasks_mtx_);
+                cv_.wait(lock, [this]() {
+                    return ((tasks_.size() > 0) && is_running_);
+                });
+                // alternatively :
+                // while ((tasks_.size() == 0) || !is_running_) {
+                //     cv_.wait(lock);
+                // }
+                std::packaged_task<ReturnT()> front_task =
+                    std::move(tasks_.front());
+                tasks_.pop();
+                lock.unlock();
+                front_task();
+            }
+        }));
     }
     for (auto &thread : threads_) {
         thread.detach();
@@ -83,7 +78,8 @@ bool ThreadPool<ReturnT>::Stop() {
 }
 
 template <typename ReturnT>
-std::future<ReturnT> ThreadPool<ReturnT>::AddTask(std::function<ReturnT()> task) {
+std::future<ReturnT> ThreadPool<ReturnT>::AddTask(
+    std::function<ReturnT()> task) {
     std::lock_guard<std::mutex> lock(tasks_mtx_);
     std::packaged_task<ReturnT()> pt(task);
     std::future<ReturnT> res = pt.get_future();

@@ -8,23 +8,22 @@
 
 #include "base_graph.hpp"
 
-
 /* declarations */
-template<typename ElementT>
-bool DFSearch(
-    const BaseGraph<ElementT> &graph, const ElementT &element);
+template <typename ElementT>
+bool DFSearch(const BaseGraph<ElementT> &graph, const ElementT &element);
 
-template<typename ElementT>
-bool BFSearch(
-    const BaseGraph<ElementT> &graph, const ElementT &from, const ElementT &target);
-
-
+template <typename ElementT>
+bool BFSearch(const BaseGraph<ElementT> &graph,
+              const ElementT &from,
+              const ElementT &target);
 
 /* implementations */
-template<typename ElementT>
-bool DFSearch(
-    const BaseGraph<ElementT> &graph, const ElementT &from, const ElementT &target) {
-    std::vector<std::shared_ptr<GraphNode<ElementT> > > vertexes = graph.GetVertexes();
+template <typename ElementT>
+bool DFSearch(const BaseGraph<ElementT> &graph,
+              const ElementT &from,
+              const ElementT &target) {
+    std::vector<std::shared_ptr<GraphNode<ElementT> > > vertexes =
+        graph.GetVertexes();
     std::stack<std::shared_ptr<GraphNode<ElementT> > > waiting_stack;
     std::vector<std::shared_ptr<GraphNode<ElementT> > > visited;
     for (auto &vertex : vertexes) {
@@ -41,7 +40,8 @@ bool DFSearch(
             if (next->data == target) {
                 return true;
             }
-            if (std::find(visited.begin(), visited.end(), next) == visited.end()) {
+            if (std::find(visited.begin(), visited.end(), next) ==
+                visited.end()) {
                 waiting_stack.push(next);
             }
         }
@@ -49,10 +49,12 @@ bool DFSearch(
     return false;
 }
 
-template<typename ElementT>
-bool BFSearch(
-    const BaseGraph<ElementT> &graph, const ElementT &from, const ElementT &target) {
-    std::vector<std::shared_ptr<GraphNode<ElementT> > > vertexes = graph.GetVertexes();
+template <typename ElementT>
+bool BFSearch(const BaseGraph<ElementT> &graph,
+              const ElementT &from,
+              const ElementT &target) {
+    std::vector<std::shared_ptr<GraphNode<ElementT> > > vertexes =
+        graph.GetVertexes();
     std::queue<std::shared_ptr<GraphNode<ElementT> > > waiting_queue;
     std::vector<std::shared_ptr<GraphNode<ElementT> > > visited;
     for (auto &vertex : vertexes) {
@@ -69,7 +71,8 @@ bool BFSearch(
             if (next->data == target) {
                 return true;
             }
-            if (std::find(visited.begin(), visited.end(), next) != visited.end()) {
+            if (std::find(visited.begin(), visited.end(), next) !=
+                visited.end()) {
                 continue;
             }
             waiting_queue.push(next);
