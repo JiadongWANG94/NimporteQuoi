@@ -15,7 +15,10 @@ Many of these files could be replaced by some well-known 3rdparty projects.
 Provide some basic data structure and implementation of some related algorithms.
 
 ### Memory Pool
-**WIP**
+`MemoryPool<T>` Provide common interface of different implementations.  
+`DummyMemoryPool` Provide the most basic implementation.  
+`MultiListMemoryPool` Provide a memory pool implemented with a set of freelist of fix-size
+ chunks.
 
 ### Ring Buffer
 `RingBuffer<DataT>` Provide a fix-sized ring buffer for a customised data type.

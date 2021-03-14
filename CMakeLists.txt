@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 14)
 
 file(GLOB modules ${CMAKE_CURRENT_LIST_DIR}/*)
 
+enable_testing()
+
 foreach(module_dir ${modules})
     if(IS_DIRECTORY ${module_dir})
         get_filename_component(module ${module_dir} NAME)
@@ -30,6 +32,10 @@ foreach(module_dir ${modules})
                 target_include_directories(${exec}
                     PUBLIC
                         ${CMAKE_CURRENT_SOURCE_DIR}/common)
+                add_test(
+                    NAME ${exec}
+                    COMMAND ${exec}
+                    WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
             endforeach()
         endif()
     endif()
