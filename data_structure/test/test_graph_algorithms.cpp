@@ -46,4 +46,8 @@ REGISTER_TEST(test) {
     return true;
 }
 
-int main() { RunTests(); }
+int main() {
+    InitFailureHandle();
+    RunTests();
+    return 0;
+}

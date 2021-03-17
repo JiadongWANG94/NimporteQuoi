@@ -26,9 +26,11 @@ foreach(module_dir ${modules})
                 get_filename_component(exec ${src_file} NAME_WE)
                 message(STATUS "build exec ${exec}")
                 add_executable(${exec} ${src_file})
+                add_dependencies(${exec} common)
                 target_link_libraries(${exec}
                     PUBLIC
-                        ${module})
+                        ${module}
+                        common)
                 target_include_directories(${exec}
                     PUBLIC
                         ${CMAKE_CURRENT_SOURCE_DIR}/common)

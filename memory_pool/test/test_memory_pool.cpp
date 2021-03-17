@@ -4,7 +4,6 @@
 
 #include "memory_pool.hpp"
 #include "multi_list_memory_pool.hpp"
-#include "mixed_memory_pool.hpp"
 #include "dummy_memory_pool.hpp"
 
 #include "log.hpp"
@@ -93,6 +92,7 @@ REGISTER_TEST(test_cmath) {
 }
 
 int main() {
+    InitFailureHandle();
     RunTests();
     return 0;
 }

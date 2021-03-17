@@ -55,6 +55,7 @@ REGISTER_TEST(test_thread_pool) {
 }
 
 int main() {
+    InitFailureHandle();
     RunTests();
     return 0;
 }
