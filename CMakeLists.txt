@@ -18,8 +18,16 @@ foreach(module_dir ${modules})
                 PUBLIC
                     ${module}
                     ${CMAKE_CURRENT_SOURCE_DIR}/common)
+            if(EXISTS ${module_dir}/dependencies.cmake)
+                include(${module_dir}/dependencies.cmake)
+                add_dependencies(${module} ${MODULE_DEPS})
+                target_include_directories(${module} PUBLIC ${MODULE_DEPS})
+                target_link_libraries(${module} PUBLIC ${MODULE_DEPS})
+                message(STATUS "add dependencies from ${module} to ${MODULE_DEPS}")
+            endif()
             unset(src_list)
         endif()
+
         if(IS_DIRECTORY ${module_dir}/test/)
             file(GLOB src_list ${module_dir}/test/*.cpp)
             foreach(src_file ${src_list})

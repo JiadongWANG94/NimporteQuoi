@@ -10,18 +10,44 @@
 
 #include "log.hpp"
 
-class TimerGuard {
+class Timer {
  public:
-    TimerGuard() {}
-
-    ~TimerGuard() {}
+    Timer();
+    void Push(const std::string &);
+    void Pop();
+    bool IsEmpty() const;
 
  private:
-    std::chrono::time_point<std::chrono::steady_clock> start;
+    Timer(const Timer &) = default;
+    Timer &operator=(const Timer &) = default;
+    std::stack<std::pair<std::string,
+                         std::chrono::time_point<std::chrono::steady_clock> > >
+        timepoint_stack_;
 };
 
-#define TIMER_START(tag)
-#define TIMER_PUSH(tag)
-#define TIMER_POP(tag)
-#define TIMER_STOP(tag)
-#define TIMER_SCOPE(tag)
+#define TIMER_INIT() Timer local_timer;
+#define TIMER_PUSH(tag)         \
+    do {                        \
+        local_timer.Push(#tag); \
+    } while (0)
+#define TIMER_POP()        \
+    do {                   \
+        local_timer.Pop(); \
+    } while (0)
+#define TIMER_END()                      \
+    do {                                 \
+        while (!local_timer.IsEmpty()) { \
+            local_timer.Pop();           \
+        }                                \
+    } while (0)
+
+class TimerGuard {
+ public:
+    explicit TimerGuard(const std::string &tag) { timer_.Push(tag); }
+    ~TimerGuard() { timer_.Pop(); }
+
+ private:
+    Timer timer_;
+};
+
+#define TIMER_SCOPE(tag) TimerGuard local_timerguard(#tag);

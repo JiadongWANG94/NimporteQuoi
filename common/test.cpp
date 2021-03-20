@@ -42,7 +42,8 @@ void SignalProcess(int) {
     void *buffer[STACK_BUF_LEN];
     int n = backtrace(buffer, STACK_BUF_LEN);
     char **symbols = backtrace_symbols(buffer, n);
-    write(2, "====== call stack ======\n", strlen("====== call stack ======\n"));
+    write(2, "====== call stack ======\n",
+          strlen("====== call stack ======\n"));
     for (i = 0; i < n; i++) {
         write(2, symbols[i], strlen(symbols[i]));
         write(2, "\n", 1);

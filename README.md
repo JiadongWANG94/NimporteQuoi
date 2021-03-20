@@ -33,6 +33,7 @@ Provide some basic data structure and implementation of some related algorithms.
 **WIP** Provide a pipeline pattern that read from a configuration file and generate a DAG to process data.
 
 ### Factory
+`Factory<BaseType>` Test a mechanism of auto-registeration to a factory and instance creation with name.
 
 ### Type Traits
 **WIP** Provide some common tools for type traits.
