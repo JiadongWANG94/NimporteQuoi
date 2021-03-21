@@ -40,3 +40,6 @@ Provide some basic data structure and implementation of some related algorithms.
 
 ### Algorithms
 **WIP** Provide some implementations of common algorithms.
+
+### LibraryLoader
+`LibraryLoader` Provide a framework to dynamically load shared libraries and call functions or create derived class' instance of visable base class.  This is inspired by POCO's `SharedLibrary` or ROS's nodelet or Apollo's Cyber.  
