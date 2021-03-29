@@ -39,3 +39,15 @@ inline std::vector<std::shared_ptr<TestWrapper> > &GetTestHandles() {
         GetTestHandles().push_back(std::make_shared<test##_wrapper>());        \
     }                                                                          \
     bool test##_wrapper::RunImpl()
+
+#define ASSERT_EQ(a, b)                                \
+    if (a != b) {                                      \
+        LOG(test) << "Assertion failed." << std::endl; \
+        return false;                                  \
+    }
+
+#define ASSERT_NE(a, b)                                \
+    if (a == b) {                                      \
+        LOG(test) << "Assertion failed." << std::endl; \
+        return false;                                  \
+    }

@@ -2,6 +2,8 @@
  * Wang Jiadong <jiadong.wang.94@outlook.com>
  */
 
+#pragma once
+
 #include <stack>
 #include <queue>
 #include <iostream>
