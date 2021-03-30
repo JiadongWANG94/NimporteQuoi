@@ -1,3 +1,7 @@
+/**
+ * Wang Jiadong <jiadong.wang.94@outlook.com>
+ */
+
 #include "heap.hpp"
 
 #include "test.hpp"
@@ -5,6 +9,7 @@
 
 REGISTER_TEST(test_heap_pos) {
     Heap<int> heap;
+    // Require Public accessibility
     // LOG(test) << "GetDepth" << std::endl;
     // LOG(test) << heap.GetDepth(0) << std::endl;
     // LOG(test) << heap.GetDepth(1) << std::endl;

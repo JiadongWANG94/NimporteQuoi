@@ -62,6 +62,7 @@ class Heap {
         }
         return s;
     }
+
  private:
     std::vector<T> data_;
     void PercolateUp(unsigned int pos);
