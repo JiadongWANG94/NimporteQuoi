@@ -7,6 +7,6 @@
 template <typename MutexT>
 class FakeLock {
     void lock() {}
-    void try_lock() {} 
+    void try_lock() {}
     void unlock() {}
 };

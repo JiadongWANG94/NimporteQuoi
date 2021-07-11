@@ -43,3 +43,6 @@ Provide some basic data structure and implementation of some related algorithms.
 
 ### LibraryLoader
 `LibraryLoader` Provide a framework to dynamically load shared libraries and call functions or create derived class' instance of visable base class.  This is inspired by POCO's `SharedLibrary` or ROS's nodelet or Apollo's Cyber.  
+
+### TimerManager
+`TimerManager` Provide an util to help register and execute cyclic tasks with specific frequency.
