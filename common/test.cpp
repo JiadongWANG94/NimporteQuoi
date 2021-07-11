@@ -33,6 +33,7 @@ void RunTests() {
 void InitFailureHandle() {
     signal(SIGSEGV, SignalProcess);
     signal(SIGABRT, SignalProcess);
+    signal(SIGBUS, SignalProcess);
 }
 
 #define STACK_BUF_LEN 30

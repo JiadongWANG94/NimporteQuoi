@@ -9,6 +9,7 @@
 #include <sstream>
 
 #include "log.hpp"
+#include "type_traits.hpp"
 
 /*
          0
@@ -19,16 +20,6 @@
 / \   / \
 7 8   9 10 ....
 */
-
-template <bool Condition, typename TrueType, typename FalseType>
-struct EnableIfElse {
-    typedef FalseType type;
-};
-
-template <typename TrueType, typename FalseType>
-struct EnableIfElse<true, TrueType, FalseType> {
-    typedef TrueType type;
-};
 
 template <typename T, bool IsMaxHeap = true>
 class Heap {

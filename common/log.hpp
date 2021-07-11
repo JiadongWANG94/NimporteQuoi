@@ -20,7 +20,6 @@
 
 #else  // ENABLE_LOG
 
-namespace {
 class LogToNull {
  public:
     template <typename T>
@@ -38,7 +37,9 @@ class LogToNull {
         return *this;
     }
 };
-}  // namespace
+
 #define LOG(tag) LogToNull()
+
+// #define LOG(tag) 0 && std::cout
 
 #endif  // ENABLE_LOG
