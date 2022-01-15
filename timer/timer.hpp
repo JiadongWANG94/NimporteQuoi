@@ -17,12 +17,10 @@
 
 class Timer {
     friend class TimerManager;
-
  public:
-    ~Timer();
+     ~Timer();
     bool Start();
     bool Stop();
-
  private:
     explicit Timer(int token) : token(token) {}
     int token;
@@ -49,9 +47,7 @@ class TimerManager {
         return &instance;
     }
 
-    Timer RegisterTimer(float32_t freq,
-                        std::function<void()> callback,
-                        bool oneshot = false);
+    Timer RegisterTimer(float32_t freq, std::function<void()> callback, bool oneshot = false);
 
  private:
     TimerManager();
@@ -64,7 +60,10 @@ class TimerManager {
     bool ActivateTimer(int token);
     bool DeactivateTimer(int token);
     bool DeleteTimer(int token);
+ private:
+    ThreadPool<void> task_executors_{10};
     std::unique_ptr<std::thread> thread_worker_;
+    std::atomic<bool> is_running_{true};
     std::mutex active_task_list_mtx_;
     std::list<TaskDescriptor> active_task_list_;
     std::mutex stopped_task_list_mtx_;
