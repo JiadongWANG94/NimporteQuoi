@@ -20,13 +20,13 @@ void RunTests() {
             ++n_failure;
         }
     }
-    LOG(test) << "\033[1;32m" << n_failure
-              << "\033[0m test(s) failed out of all \033[1;32m" << n_tests
-              << "\033[0m test(s)." << std::endl;
+    LINFO(test) << "\033[1;32m" << n_failure
+                << "\033[0m test(s) failed out of all \033[1;32m" << n_tests
+                << "\033[0m test(s)." << std::endl;
     if (0 == n_failure) {
-        LOG(test) << "\033[1;32mAll tests passed.\033[0m" << std::endl;
+        LINFO(test) << "\033[1;32mAll tests passed.\033[0m" << std::endl;
     } else {
-        LOG(test) << "\033[1;31mTest failed.\033[0m" << std::endl;
+        LINFO(test) << "\033[1;31mTest failed.\033[0m" << std::endl;
     }
 }
 

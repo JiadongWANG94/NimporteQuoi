@@ -9,8 +9,8 @@ LibraryLoader::LibraryLoader(const std::string &library_name, int flag)
     // Load library
     library_handle_ = dlopen(library_name.c_str(), flag);
     if (!library_handle_) {
-        LOG(FunctionLoader) << "Failed to load library : " << library_name
-                            << " raison : " << dlerror();
+        LINFO(FunctionLoader) << "Failed to load library : " << library_name
+                              << " raison : " << dlerror();
     }
     if (library_handle_) {
         void *manifest_func_ = dlsym(library_handle_, "getLibraryManifest");

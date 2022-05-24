@@ -34,14 +34,12 @@ REGISTER_TEST(test_string) {
 
 REGISTER_TEST(test_char_array) {
     // note the difference:
-    char * test_char_array = "123\0asdf\01123\0";
+    char *test_char_array = "123\0asdf\01123\0";
     std::string str(test_char_array);
     LOG(test_char_array) << test_char_array << std::endl;
     LOG(test_char_array) << str << std::endl;
     return true;
 }
-
-
 
 REGISTER_TEST(test_const) {
     // this part of code is not logical and has undefined behavior

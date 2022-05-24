@@ -16,8 +16,8 @@ void Timer::Pop() {
         &timepoint = timepoint_stack_.top();
     std::chrono::duration<double> elapsed_seconds =
         std::chrono::steady_clock::now() - timepoint.second;
-    LOG(timer) << "duration for " << timepoint.first
-               << " is : " << elapsed_seconds.count() << std::endl;
+    LINFO(timer) << "duration for " << timepoint.first
+                 << " is : " << elapsed_seconds.count() << std::endl;
     timepoint_stack_.pop();
 }
 

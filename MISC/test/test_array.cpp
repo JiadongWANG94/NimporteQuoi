@@ -8,10 +8,10 @@
 
 REGISTER_TEST(test_pointer) {
     int array[5] = {1, 2, 3, 4, 5};
-    LOG(test_pointer) << "array : " << array << std::endl;
-    LOG(test_pointer) << "&array : " << &array << std::endl;
-    LOG(test_pointer) << "array + 1 : " << array + 1 << std::endl;
-    LOG(test_pointer) << "&array + 1 : " << &array + 1 << std::endl;
+    LINFO(test_pointer) << "array : " << array << std::endl;
+    LINFO(test_pointer) << "&array : " << &array << std::endl;
+    LINFO(test_pointer) << "array + 1 : " << array + 1 << std::endl;
+    LINFO(test_pointer) << "&array + 1 : " << &array + 1 << std::endl;
     return true;
 }
 

@@ -71,28 +71,28 @@ bool DomainSocketPublisher::Init(const std::string &topic) {
     struct sockaddr_un servaddr;
 
     listenfd_ = socket(AF_LOCAL, SOCK_STREAM, 0);
-    LOG(DomainSocketPublisher) << "listen fd is " << listenfd_ << std::endl;
+    LINFO(DomainSocketPublisher) << "listen fd is " << listenfd_ << std::endl;
 
     unlink(socket_path.c_str());
     bzero(&servaddr, sizeof(servaddr));
     servaddr.sun_family = AF_LOCAL;
     strcpy(servaddr.sun_path, socket_path.c_str());
-    LOG(DomainSocketPublisher) << "socket path " << socket_path << std::endl;
+    LINFO(DomainSocketPublisher) << "socket path " << socket_path << std::endl;
 
     if (bind(listenfd_, (sockaddr *)&servaddr, sizeof(servaddr)) < 0) {
-        LOG(DomainSocketPublisher)
+        LINFO(DomainSocketPublisher)
             << "Error failed bind to socket" << std::endl;
         return false;
     } else {
-        LOG(DomainSocketPublisher) << "Bind success." << std::endl;
+        LINFO(DomainSocketPublisher) << "Bind success." << std::endl;
     }
 
     if (listen(listenfd_, SOMAXCONN) < 0) {
-        LOG(DomainSocketPublisher)
+        LINFO(DomainSocketPublisher)
             << "Error failed to listen socket" << std::endl;
         return false;
     } else {
-        LOG(DomainSocketPublisher) << "Listen success." << std::endl;
+        LINFO(DomainSocketPublisher) << "Listen success." << std::endl;
     }
 
     std::function<void()> worker_fn = [this]() {
@@ -102,15 +102,15 @@ bool DomainSocketPublisher::Init(const std::string &topic) {
             int connfd =
                 accept(this->listenfd_, (sockaddr *)&cliaddr, &clientlen);
             if (connfd < 0) {
-                LOG(DomainSocketPublisher)
+                LINFO(DomainSocketPublisher)
                     << "Error accept return code < 0" << std::endl;
                 continue;
             } else {
-                LOG(DomainSocketPublisher) << "Accept success." << std::endl;
+                LINFO(DomainSocketPublisher) << "Accept success." << std::endl;
             }
             {
                 std::lock_guard<std::mutex> guard(list_mtx_);
-                LOG(DomainSocketPublisher)
+                LINFO(DomainSocketPublisher)
                     << "Register client fd " << connfd << std::endl;
                 this->listenfd_list_.push_back(connfd);
             }
@@ -125,10 +125,11 @@ bool DomainSocketPublisher::Init(const std::string &topic) {
 template <typename T>
 bool DomainSocketPublisher::Publish(const T &data) {
     std::lock_guard<std::mutex> guard(list_mtx_);
-    LOG(DomainSocketPublisher) << "Number to client subscribed to publisher : "
-                               << this->listenfd_list_.size() << std::endl;
+    LINFO(DomainSocketPublisher)
+        << "Number to client subscribed to publisher : "
+        << this->listenfd_list_.size() << std::endl;
     for (auto &connfd : listenfd_list_) {
-        LOG(DomainSocketPublisher)
+        LINFO(DomainSocketPublisher)
             << "Publish to connection fd " << connfd << std::endl;
         write(connfd, &data, sizeof(T));
     }
@@ -151,7 +152,7 @@ bool DomainSocketSubscriber::Init(const std::string &topic) {
     struct sockaddr_un servaddr;
     sockfd_ = socket(AF_LOCAL, SOCK_STREAM, 0);
     if (sockfd_ == 0) {
-        LOG(DomainSocketSubscriber)
+        LINFO(DomainSocketSubscriber)
             << "Error failed to get socket fd." << std::endl;
         return false;
     }
@@ -159,7 +160,7 @@ bool DomainSocketSubscriber::Init(const std::string &topic) {
     servaddr.sun_family = AF_LOCAL;
     strcpy(servaddr.sun_path, socket_path.c_str());
     if (connect(sockfd_, (sockaddr *)&servaddr, sizeof(servaddr)) < 0) {
-        LOG(DomainSocketSubscriber)
+        LINFO(DomainSocketSubscriber)
             << "Error failed to connect server." << std::endl;
         return false;
     }
@@ -169,11 +170,11 @@ bool DomainSocketSubscriber::Init(const std::string &topic) {
 template <typename T>
 bool DomainSocketSubscriber::Receive(T *buffer) {
     if (nullptr == buffer) {
-        LOG(DomainSocketSubscriber) << "Error nullptr" << std::endl;
+        LINFO(DomainSocketSubscriber) << "Error nullptr" << std::endl;
         return false;
     }
     int count = read(sockfd_, buffer, sizeof(T));
-    LOG(DomainSocketSubscriber)
+    LINFO(DomainSocketSubscriber)
         << "Number of bytes received " << count << std::endl;
     return true;
 }

@@ -17,15 +17,15 @@ REGISTER_TEST(test_prority_queue) {
     priority_queue.Push(8, 8);
     ASSERT_EQ(priority_queue.Top(), 1);
     ASSERT_EQ(priority_queue.Size(), 6);
-    LOG(test) << "Size " << priority_queue.Size() << std::endl;
+    LINFO(test) << "Size " << priority_queue.Size() << std::endl;
     priority_queue.Pop();
     ASSERT_EQ(priority_queue.Top(), 2);
     ASSERT_EQ(priority_queue.Size(), 5);
-    LOG(test) << "Size " << priority_queue.Size() << std::endl;
+    LINFO(test) << "Size " << priority_queue.Size() << std::endl;
     priority_queue.Pop();
     ASSERT_EQ(priority_queue.Top(), 3);
     ASSERT_EQ(priority_queue.Size(), 4);
-    LOG(test) << "Size " << priority_queue.Size() << std::endl;
+    LINFO(test) << "Size " << priority_queue.Size() << std::endl;
     return true;
 }
 

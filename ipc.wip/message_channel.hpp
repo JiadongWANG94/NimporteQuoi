@@ -128,7 +128,7 @@ bool MessageChannel<T>::Init(MessageChannelAccessType type,
                              const std::string &name,
                              unsigned int capacity) {
     if (MessageChannelAccessType::OPEN_ONLY == type && capacity != 0) {
-        LOG(MessageChannel)
+        LINFO(MessageChannel)
             << "Capacity should be zero when open an existing channel."
             << std::endl;
         return false;
@@ -136,41 +136,43 @@ bool MessageChannel<T>::Init(MessageChannelAccessType type,
     if (MessageChannelAccessType::OPEN_ONLY == type) {
         subscriber_.reset(new DomainSocketSubscriber());
         if (!subscriber_->Init(name + ".socket")) {
-            LOG(MessageChannel) << "Failed to init subscriber." << std::endl;
+            LINFO(MessageChannel) << "Failed to init subscriber." << std::endl;
             this->Reset();
             return false;
         } else {
-            LOG(MessageChannel) << "Subscriber initiated." << std::endl;
+            LINFO(MessageChannel) << "Subscriber initiated." << std::endl;
         }
         shared_memory_.reset(new ManagedSharedMemory());
         if (!shared_memory_->Init(name + ".shm",
                                   SharedMemoryAccessType::OPEN_ONLY,
                                   sizeof(MessageChannelHeader))) {
-            LOG(MessageChannel) << "Failed to init shared memory." << std::endl;
+            LINFO(MessageChannel)
+                << "Failed to init shared memory." << std::endl;
             this->Reset();
             return false;
         } else {
-            LOG(MessageChannel) << "Shared memory initiated." << std::endl;
+            LINFO(MessageChannel) << "Shared memory initiated." << std::endl;
         }
         shared_memory_->Allocate(this->GetHeader()->capacity * sizeof(T));
     } else if (MessageChannelAccessType::CREATE_ONLY == type) {
         publisher_.reset(new DomainSocketPublisher());
         if (!publisher_->Init(name + ".socket")) {
-            LOG(MessageChannel) << "Failed to init publisher." << std::endl;
+            LINFO(MessageChannel) << "Failed to init publisher." << std::endl;
             this->Reset();
             return false;
         } else {
-            LOG(MessageChannel) << "Publisher initiated." << std::endl;
+            LINFO(MessageChannel) << "Publisher initiated." << std::endl;
         }
         shared_memory_.reset(new ManagedSharedMemory());
         if (!shared_memory_->Init(
                 name + ".shm", SharedMemoryAccessType::CREATE_ONLY,
                 sizeof(MessageChannelHeader) + capacity * sizeof(T))) {
-            LOG(MessageChannel) << "Failed to init shared memory." << std::endl;
+            LINFO(MessageChannel)
+                << "Failed to init shared memory." << std::endl;
             this->Reset();
             return false;
         } else {
-            LOG(MessageChannel) << "Shared memory initiated." << std::endl;
+            LINFO(MessageChannel) << "Shared memory initiated." << std::endl;
         }
         this->GetHeader()->capacity = capacity;
         this->GetHeader()->block_size = sizeof(DataBlock);
