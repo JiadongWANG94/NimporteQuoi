@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <iostream>
+#include <memory>
 
 #include "base_graph.hpp"
 

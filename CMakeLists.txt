@@ -5,6 +5,11 @@ set(CMAKE_CXX_STANDARD 14)
 
 file(GLOB modules ${CMAKE_CURRENT_LIST_DIR}/*)
 
+find_package(Threads REQUIRED)
+set(system_libs
+    Threads::Threads
+    dl)
+
 enable_testing()
 
 foreach(module_dir ${modules})
@@ -25,7 +30,10 @@ foreach(module_dir ${modules})
                 include(${module_dir}/dependencies.cmake)
                 add_dependencies(${module} ${MODULE_DEPS})
                 target_include_directories(${module} PUBLIC ${MODULE_DEPS})
-                target_link_libraries(${module} PUBLIC ${MODULE_DEPS})
+                target_link_libraries(${module}
+                    PUBLIC
+                        ${MODULE_DEPS}
+                        ${system_libs})
                 message(STATUS "add dependencies from ${module} to ${MODULE_DEPS}")
             endif()
             unset(src_list)
@@ -41,7 +49,8 @@ foreach(module_dir ${modules})
                 target_link_libraries(${exec}
                     PUBLIC
                         ${module}
-                        common)
+                        common
+                        ${system_libs})
                 target_include_directories(${exec}
                     PUBLIC
                         ${CMAKE_CURRENT_SOURCE_DIR}/common)
