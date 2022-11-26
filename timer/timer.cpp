@@ -9,7 +9,7 @@
 // inline void
 // print_timepoint(std::chrono::time_point<std::chrono::system_clock> tp) {
 //     std::time_t ttp = std::chrono::system_clock::to_time_t(tp);
-//     std::cout << "time: " << ttp << std::endl;
+//     std::cout << "time: " << ttp;
 // }
 
 TimerManager::TimerManager() {
@@ -32,16 +32,16 @@ Timer TimerManager::RegisterTimer(float32_t freq,
                                   std::function<void()> callback,
                                   bool oneshot) {
     if (freq <= 0 || freq > 1000) {
-        LINFO(TimerManager) << "ERROR: invalid freq." << std::endl;
+        LINFO(TimerManager) << "ERROR: invalid freq.";
         return Timer(0);
     }
 
-    LINFO(TimerManager) << "Registering timer..." << std::endl;
+    LINFO(TimerManager) << "Registering timer...";
 
     static int current_token = 1;
 
     std::lock_guard<std::mutex> stopped_lock(stopped_task_list_mtx_);
-    LINFO(TimerManager) << "Mutex acquired." << std::endl;
+    LINFO(TimerManager) << "Mutex acquired.";
     TaskDescriptor task_desc;
     task_desc.callback = callback;
     task_desc.period_ms = 1000 / freq;
@@ -50,12 +50,12 @@ Timer TimerManager::RegisterTimer(float32_t freq,
     stopped_task_list_.push_back(std::move(task_desc));
     Timer ret = Timer(current_token);
     current_token++;
-    LINFO(TimerManager) << "Returning from registering." << std::endl;
+    LINFO(TimerManager) << "Returning from registering.";
     return ret;
 }
 
 void TimerManager::ThreadWorker() {
-    LINFO(TimerManager) << "Starting thread worker..." << std::endl;
+    LINFO(TimerManager) << "Starting thread worker...";
     while (is_running_.load()) {
         std::unique_lock<std::mutex> lock(active_task_list_mtx_);
         cv_.wait(lock, [this]() { return !active_task_list_.empty(); });
@@ -88,19 +88,18 @@ void TimerManager::ThreadWorker() {
             });
         if (active_task_list_.begin()->next_call <
             std::chrono::system_clock::now()) {
-            LINFO(TimerManager)
-                << "WARN: To much time in execution, no sleep." << std::endl;
+            LINFO(TimerManager) << "WARN: To much time in execution, no sleep.";
         } else {
             // no need to worry about false wake.
             cv_.wait_for(lock, active_task_list_.begin()->next_call -
                                    std::chrono::system_clock::now());
         }
     }
-    LINFO(TimerManager) << "thread worker exited..." << std::endl;
+    LINFO(TimerManager) << "thread worker exited...";
 }
 
 bool TimerManager::ActivateTimer(int token) {
-    LINFO(TimerManager) << "Activate time with token " << token << std::endl;
+    LINFO(TimerManager) << "Activate time with token " << token;
     std::unique_lock<std::mutex> active_lock(active_task_list_mtx_);
     std::unique_lock<std::mutex> stopped_lock(stopped_task_list_mtx_);
     for (auto ite = stopped_task_list_.begin(); ite != stopped_task_list_.end();

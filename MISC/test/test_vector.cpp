@@ -67,8 +67,8 @@ int main() {
     vector.push_back(2);
     vector.push_back(3);
     vector.pop_back();
-    std::cout << vector.size() << std::endl;
-    std::cout << vector.capacity() << std::endl;
-    std::cout << vector[0] << std::endl;
+    std::cout << vector.size();
+    std::cout << vector.capacity();
+    std::cout << vector[0];
     return 0;
 }

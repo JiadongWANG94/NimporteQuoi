@@ -21,11 +21,11 @@ class Sheep : public BaseAnimal {
     virtual void saySomething();
 };
 
-void Duck::saySomething() { LINFO(Duck) << "Quack" << std::endl; }
+void Duck::saySomething() { LINFO(Duck) << "Quack"; }
 
-void Cow::saySomething() { LINFO(Cow) << "Moooo" << std::endl; }
+void Cow::saySomething() { LINFO(Cow) << "Moooo"; }
 
-void Sheep::saySomething() { LINFO(Sheep) << "Baaah" << std::endl; }
+void Sheep::saySomething() { LINFO(Sheep) << "Baaah"; }
 
 BEGIN_MANIFEST()
 EXPORT_CLASS(BaseAnimal, Duck);

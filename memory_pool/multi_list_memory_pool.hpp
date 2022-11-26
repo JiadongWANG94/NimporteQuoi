@@ -56,7 +56,7 @@ MultiListMemoryPool::Chunk *MultiListMemoryPool::expand_list(size_t idx) {
     char *head = static_cast<char *>(
         malloc(kNumberOfChunkPerExpand * list_idx_to_size(idx)));
     if (head == nullptr) {
-        LINFO(MultiListMemoryPool) << "out of memory!" << std::endl;
+        LINFO(MultiListMemoryPool) << "out of memory!";
     }
     list_table_[idx] = reinterpret_cast<Chunk *>(head);
     for (int i = 0; i < kNumberOfChunkPerExpand; ++i) {

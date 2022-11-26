@@ -18,7 +18,7 @@ REGISTER_TEST(test_domain_socket_ipc) {
         while (1) {
             int receive = 0;
             sub.Receive(&receive);
-            LINFO(test_domain_socket_ipc) << receive << std::endl;
+            LINFO(test_domain_socket_ipc) << receive;
         }
     });
     t.detach();

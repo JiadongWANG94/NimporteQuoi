@@ -41,14 +41,14 @@ inline std::vector<std::shared_ptr<TestWrapper> > &GetTestHandles() {
     }                                                                          \
     bool test##_wrapper::RunImpl()
 
-#define ASSERT_EQ(a, b)                                  \
-    if (a != b) {                                        \
-        LINFO(test) << "Assertion failed." << std::endl; \
-        return false;                                    \
+#define ASSERT_EQ(a, b)                     \
+    if (a != b) {                           \
+        LINFO(test) << "Assertion failed."; \
+        return false;                       \
     }
 
-#define ASSERT_NE(a, b)                                  \
-    if (a == b) {                                        \
-        LINFO(test) << "Assertion failed." << std::endl; \
-        return false;                                    \
+#define ASSERT_NE(a, b)                     \
+    if (a == b) {                           \
+        LINFO(test) << "Assertion failed."; \
+        return false;                       \
     }

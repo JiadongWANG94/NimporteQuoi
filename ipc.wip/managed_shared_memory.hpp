@@ -46,9 +46,9 @@ bool ManagedSharedMemory::Init(const std::string &name,
         int visibility = MAP_SHARED;
         if (0 == access(file_name.c_str(), F_OK)) {
             // check
-            LINFO(ManagedSharedMemory) << "File exists." << std::endl;
+            LINFO(ManagedSharedMemory) << "File exists.";
             if (0 != unlink(file_name.c_str())) {
-                LINFO(ManagedSharedMemory) << "Failed to unlink." << std::endl;
+                LINFO(ManagedSharedMemory) << "Failed to unlink.";
                 return false;
             }
         }
@@ -56,22 +56,22 @@ bool ManagedSharedMemory::Init(const std::string &name,
         if (nullptr != fp_) {
             fd_ = fileno(fp_);
         } else {
-            LINFO(ManagedSharedMemory) << "Failed to create file." << std::endl;
+            LINFO(ManagedSharedMemory) << "Failed to create file.";
             return false;
         }
 
         if (ftruncate(fd_, size) < 0) {
-            LINFO(ManagedSharedMemory) << "Failed to ftruncate." << std::endl;
+            LINFO(ManagedSharedMemory) << "Failed to ftruncate.";
             return false;
         }
 
         address_ = mmap(NULL, size, protection, visibility, fd_, 0);
         if (nullptr == address_) {
-            LINFO(ManagedSharedMemory) << "Failed mmap." << std::endl;
+            LINFO(ManagedSharedMemory) << "Failed mmap.";
             return false;
         } else {
             LINFO(ManagedSharedMemory)
-                << "Mmap succeed to address " << address_ << std::endl;
+                << "Mmap succeed to address " << address_;
         }
         return true;
     } else {
@@ -81,12 +81,12 @@ bool ManagedSharedMemory::Init(const std::string &name,
         if (nullptr != fp_) {
             fd_ = fileno(fp_);
         } else {
-            LINFO(ManagedSharedMemory) << "Failed to create file." << std::endl;
+            LINFO(ManagedSharedMemory) << "Failed to create file.";
             return false;
         }
         address_ = mmap(NULL, size, protection, visibility, fd_, 0);
         if (nullptr == address_) {
-            LINFO(ManagedSharedMemory) << "Failed mmap." << std::endl;
+            LINFO(ManagedSharedMemory) << "Failed mmap.";
             return false;
         }
         return true;

@@ -12,7 +12,7 @@ REGISTER_TEST(test_message_channel) {
     MessageChannel<int> consumer;
     ASSERT_EQ(true, provider.Init(MessageChannelAccessType::OPEN_ONLY,
                                   "test_channel", 0));
-    LINFO(test) << "here" << std::endl;
+    LINFO(test) << "here";
     provider.Push(1, 2012);
     provider.Push(2, 2013);
     provider.Push(3, 2014);

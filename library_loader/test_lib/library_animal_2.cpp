@@ -16,9 +16,9 @@ class Dog : public BaseAnimal {
     virtual void saySomething();
 };
 
-void Pig::saySomething() { LINFO(Cow) << "I am a talking pig" << std::endl; }
+void Pig::saySomething() { LINFO(Cow) << "I am a talking pig"; }
 
-void Dog::saySomething() { LINFO(Sheep) << "Warf Warf" << std::endl; }
+void Dog::saySomething() { LINFO(Sheep) << "Warf Warf"; }
 
 BEGIN_MANIFEST()
 EXPORT_CLASS(BaseAnimal, Pig);

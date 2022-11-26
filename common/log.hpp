@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <cstring>
+#include <stdint.h>
 
 #define ENABLE_LOG
 
@@ -32,11 +33,6 @@
 #define __FILENAME__ \
     (strrchr(__FILE__, '/') ? (strrchr(__FILE__, '/') + 1) : __FILE__)
 
-#define LOG(tag)                                                           \
-    std::cout << CLR_YELLOW "[" << #tag << "]" CLR_RESET "[" CLR_CYAN_BOLD \
-              << __FILENAME__ << CLR_RESET ":" CLR_MAGENTA << __LINE__     \
-              << CLR_RESET "] "
-
 class LogToNull {
  public:
     template <typename T>
@@ -55,40 +51,87 @@ class LogToNull {
     }
 };
 
-// #define LOG(tag) 0 && std::cout
+// forward declaration
+class LogStreamer;
 
-#if LOG_LEVEL == 0
-#define LTRACE(tag) LOG(tag) << "[T] "
-#else
-#define LTRACE(tag) LogToNull()
-#endif
+class LogManager {
+    friend LogStreamer;
 
-#if LOG_LEVEL <= 1
-#define LDEBUG(tag) LOG(tag) << "[D] "
-#else
-#define LDEBUG(tag) LogToNull()
-#endif
+ public:
+    void SetLogLevel(int32_t level) { level_ = level; }
 
-#if LOG_LEVEL <= 2
-#define LINFO(tag) LOG(tag) << "[" CLR_WHITE_BOLD "I" CLR_RESET "] "
-#else
-#define LINFO(tag) LogToNull()
-#endif
+ private:
+    void Log(int level, const std::string& message) {
+        if (level >= level_) {
+            std::cout << message << std::endl;
+        }
+    }
 
-#if LOG_LEVEL <= 3
-#define LWARN(tag) LOG(tag) << "[" CLR_YELLOW_BOLD "W" CLR_RESET "] "
-#else
-#define LWARN(tag) LogToNull()
-#endif
+ private:
+    int32_t level_ = 1;
+};
 
-#if LOG_LEVEL <= 4
-#define LERROR(tag) LOG(tag) << "[" CLR_RED_BOLD "E" CLR_RESET "] "
-#else
-#define LERROR(tag) LogToNull()
-#endif
+extern LogManager g_log_manager;
 
-#if LOG_LEVEL <= 5
-#define LFATAL(tag) LOG(tag) << "[" CLR_RED_BOLD "F" CLR_RESET "] "
-#else
-#define LFATAL(tag) LogToNull()
-#endif
+class LogStreamer {
+ public:
+    LogStreamer(int32_t level) : level_(level) {}
+
+    ~LogStreamer() { g_log_manager.Log(level_, buffer_); }
+
+    LogStreamer& operator<<(const bool& msg) {
+        buffer_ += std::to_string(msg);
+        return *this;
+    }
+    LogStreamer& operator<<(const int& msg) {
+        buffer_ += std::to_string(msg);
+        return *this;
+    }
+    LogStreamer& operator<<(const long& msg) {
+        buffer_ += std::to_string(msg);
+        return *this;
+    }
+    LogStreamer& operator<<(const unsigned int& msg) {
+        buffer_ += std::to_string(msg);
+        return *this;
+    }
+    LogStreamer& operator<<(const unsigned long& msg) {
+        buffer_ += std::to_string(msg);
+        return *this;
+    }
+    LogStreamer& operator<<(const float& msg) {
+        buffer_ += std::to_string(msg);
+        return *this;
+    }
+    LogStreamer& operator<<(const double& msg) {
+        buffer_ += std::to_string(msg);
+        return *this;
+    }
+    LogStreamer& operator<<(const std::string& msg) {
+        buffer_ += msg;
+        return *this;
+    }
+    LogStreamer& operator<<(const char* msg) {
+        buffer_ += msg;
+        return *this;
+    }
+
+ private:
+    std::string buffer_;
+    int32_t level_;
+};
+
+#define LOG_TAG(tag)                                                          \
+    CLR_YELLOW "[" << #tag << "]" CLR_RESET "[" CLR_CYAN_BOLD << __FILENAME__ \
+                   << CLR_RESET ":" CLR_MAGENTA << __LINE__ << CLR_RESET "] "
+
+#define LTRACE(tag) LogStreamer(0) << LOG_TAG(tag) << "[T] "
+#define LDEBUG(tag) LogStreamer(1) << LOG_TAG(tag) << "[D] "
+#define LINFO(tag) \
+    LogStreamer(2) << LOG_TAG(tag) << "[" CLR_WHITE_BOLD "I" CLR_RESET "] "
+#define LWARN(tag) \
+    LogStreamer(3) << LOG_TAG(tag) << "[" CLR_YELLOW_BOLD "W" CLR_RESET "] "
+#define LERROR(tag) \
+    LogStreamer(4) << LOG_TAG(tag) << "[" CLR_RED_BOLD "E" CLR_RESET "] "
+#define LFATAL(tag) \
+    LogStreamer(5) << LOG_TAG(tag) << "[" CLR_RED_BOLD "F" CLR_RESET "] "

@@ -17,8 +17,7 @@ bool LibraryManifest::HasClass(const std::string &base_type,
 void *LibraryManifest::CreateInstance(const std::string &base_type,
                                       const std::string &class_name) {
     if (this->HasClass(base_type, class_name)) {
-        LINFO(LibraryManifest)
-            << "Found class registered : " << class_name << std::endl;
+        LINFO(LibraryManifest) << "Found class registered : " << class_name;
         return static_cast<void *>(constructor_map_[base_type][class_name]());
     }
     return nullptr;

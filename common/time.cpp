@@ -17,7 +17,7 @@ void Timer::Pop() {
     std::chrono::duration<double> elapsed_seconds =
         std::chrono::steady_clock::now() - timepoint.second;
     LINFO(timer) << "duration for " << timepoint.first
-                 << " is : " << elapsed_seconds.count() << std::endl;
+                 << " is : " << elapsed_seconds.count();
     timepoint_stack_.pop();
 }
 

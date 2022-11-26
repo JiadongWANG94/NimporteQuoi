@@ -13,32 +13,28 @@ class TestBase {
 
 class TestDerived1 : public TestBase {
  public:
-    TestDerived1() { LINFO(test_factory) << "Construct derived1" << std::endl; }
-    virtual ~TestDerived1() {
-        LINFO(test_factory) << "Destruct derived1" << std::endl;
-    }
+    TestDerived1() { LINFO(test_factory) << "Construct derived1"; }
+    virtual ~TestDerived1() { LINFO(test_factory) << "Destruct derived1"; }
     virtual bool Init() override {
-        LINFO(test_factory) << "Init derived1" << std::endl;
+        LINFO(test_factory) << "Init derived1";
         return true;
     }
     virtual bool Process() override {
-        LINFO(test_factory) << "Process derived1" << std::endl;
+        LINFO(test_factory) << "Process derived1";
         return true;
     }
 };
 
 class TestDerived2 : public TestBase {
  public:
-    TestDerived2() { LINFO(test_factory) << "Construct derived2" << std::endl; }
-    virtual ~TestDerived2() {
-        LINFO(test_factory) << "Destruct derived2" << std::endl;
-    }
+    TestDerived2() { LINFO(test_factory) << "Construct derived2"; }
+    virtual ~TestDerived2() { LINFO(test_factory) << "Destruct derived2"; }
     virtual bool Init() override {
-        LINFO(test_factory) << "Init derived2" << std::endl;
+        LINFO(test_factory) << "Init derived2";
         return true;
     }
     virtual bool Process() override {
-        LINFO(test_factory) << "Process derived2" << std::endl;
+        LINFO(test_factory) << "Process derived2";
         return true;
     }
 };
