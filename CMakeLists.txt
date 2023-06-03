@@ -33,8 +33,9 @@ foreach(module_dir ${modules})
                 target_link_libraries(${module}
                     PUBLIC
                         ${MODULE_DEPS}
-                        ${system_libs})
-                message(STATUS "add dependencies from ${module} to ${MODULE_DEPS}")
+                        ${system_libs}
+                        common)
+                    message(STATUS "add dependencies from ${module} to ${MODULE_DEPS}")
             endif()
             unset(src_list)
         endif()
