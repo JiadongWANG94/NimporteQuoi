@@ -21,7 +21,9 @@ foreach(module_dir ${modules})
         file(GLOB src_list ${module}/*.cpp)
         if(src_list)
             message(STATUS "build module ${module}")
-            add_library(${module} SHARED ${src_list})
+            add_library(${module} STATIC ${src_list})
+            set_target_properties(${module} PROPERTIES
+                POSITION_INDEPENDENT_CODE ON)
             target_include_directories(${module}
                 PUBLIC
                     ${module}
